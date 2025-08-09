@@ -109,7 +109,7 @@
         "full_width": true,
         "content_width": "small",
         "text_position": "center",
-        "background": "#fcfbf9",
+        "background": "#fff5f0",
         "background_gradient": "",
         "text_color": ""
       }
@@ -157,7 +157,7 @@
         "subheading": "",
         "title": "",
         "content": "",
-        "background": "#fcfbf9",
+        "background": "#fff5f0",
         "background_gradient": "",
         "text_color": ""
       }
@@ -388,12 +388,6 @@
             "liquid": "<style>\n  .low-stock-pulse {\n    display: inline-flex;\n    align-items: center;\n    gap: 8px;\n    font-size: 14px;\n    font-weight: 700; /* Bold */\n    font-family: 'Muli', sans-serif; /* Muli font */\n    margin: 5px 0;\n  }\n  \n  /* Default orange pulse dot */\n  .pulse-dot {\n    width: 10px;\n    height: 10px;\n    border-radius: 50%;\n    background: #FF8C42; /* Lighter orange */\n    box-shadow: 0 0 0 0 rgba(255, 140, 66, 0.7); /* Matching lighter orange */\n    animation: pulse-orange 1.5s infinite;\n  }\n  \n  @keyframes pulse-orange {\n    0% {\n      transform: scale(0.95);\n      box-shadow: 0 0 0 0 rgba(255, 140, 66, 0.7);\n    }\n    70% {\n      transform: scale(1);\n      box-shadow: 0 0 0 6px rgba(255, 140, 66, 0);\n    }\n    100% {\n      transform: scale(0.95);\n      box-shadow: 0 0 0 0 rgba(255, 140, 66, 0);\n    }\n  }\n  \n  /* Red pulse dot */\n  .pulse-dot-red {\n    width: 10px;\n    height: 10px;\n    border-radius: 50%;\n    background: #D64545; /* Red */\n    box-shadow: 0 0 0 0 rgba(214, 69, 69, 0.7); /* Red with opacity */\n    animation: pulse-red 1.5s infinite;\n  }\n  \n  @keyframes pulse-red {\n    0% {\n      transform: scale(0.95);\n      box-shadow: 0 0 0 0 rgba(214, 69, 69, 0.7);\n    }\n    70% {\n      transform: scale(1);\n      box-shadow: 0 0 0 6px rgba(214, 69, 69, 0);\n    }\n    100% {\n      transform: scale(0.95);\n      box-shadow: 0 0 0 0 rgba(214, 69, 69, 0);\n    }\n  }\n  \n  /* Green pulse dot */\n  .pulse-dot-green {\n    width: 10px;\n    height: 10px;\n    border-radius: 50%;\n    background: #3BB54A; /* Green */\n    box-shadow: 0 0 0 0 rgba(59, 181, 74, 0.7); /* Green with opacity */\n    animation: pulse-green 1.5s infinite;\n  }\n  \n  @keyframes pulse-green {\n    0% {\n      transform: scale(0.95);\n      box-shadow: 0 0 0 0 rgba(59, 181, 74, 0.7);\n    }\n    70% {\n      transform: scale(1);\n      box-shadow: 0 0 0 6px rgba(59, 181, 74, 0);\n    }\n    100% {\n      transform: scale(0.95);\n      box-shadow: 0 0 0 0 rgba(59, 181, 74, 0);\n    }\n  }\n  \n  .out-of-stock {\n    color: #D64545; /* Red color for out of stock */\n  }\n  \n  .critical-stock {\n    color: #D64545; /* Red color for critical stock (1-199) */\n  }\n  \n  .medium-stock {\n    color: #FF8C42; /* Orange color to match the medium stock dot */\n  }\n  \n  .in-stock {\n    color: #3BB54A; /* Green color for good stock */\n  }\n</style>\n\n<!-- Initial stock display based on selected/first variant -->\n<div class=\"stock-indicator\" id=\"stock-indicator\">\n  {% if product.selected_or_first_available_variant.inventory_quantity <= 0 %}\n    <div class=\"low-stock-pulse out-of-stock\">\n      <div class=\"pulse-dot-red\"></div>\n      <span>Out of stock</span>\n    </div>\n  {% elsif product.selected_or_first_available_variant.inventory_quantity <= 199 %}\n    <div class=\"low-stock-pulse critical-stock\">\n      <div class=\"pulse-dot-red\"></div>\n      <span>Only 4 more left</span>\n    </div>\n  {% elsif product.selected_or_first_available_variant.inventory_quantity <= 399 %}\n    <div class=\"low-stock-pulse medium-stock\">\n      <div class=\"pulse-dot\"></div>\n      <span>Only 7 more left</span>\n    </div>\n  {% elsif product.selected_or_first_available_variant.inventory_quantity <= 599 %}\n    <div class=\"low-stock-pulse medium-stock\">\n      <div class=\"pulse-dot\"></div>\n      <span>Only 12 more left</span>\n    </div>\n  {% else %}\n    <div class=\"low-stock-pulse in-stock\">\n      <div class=\"pulse-dot-green\"></div>\n      <span>In stock</span>\n    </div>\n  {% endif %}\n</div>\n\n<script>\n  // Set up variant change listener\n  document.addEventListener('DOMContentLoaded', function() {\n    // Function to update stock message\n    function updateStockMessage(variant) {\n      if (!variant) return;\n      \n      const stockIndicator = document.getElementById('stock-indicator');\n      const inventoryLevel = variant.inventory_quantity;\n      let stockHTML = '';\n      \n      if (inventoryLevel <= 0) {\n        stockHTML = `\n          <div class=\"low-stock-pulse out-of-stock\">\n            <div class=\"pulse-dot-red\"></div>\n            <span>Stock running low!</span>\n          </div>\n        `;\n      } else if (inventoryLevel <= 199) {\n        stockHTML = `\n          <div class=\"low-stock-pulse critical-stock\">\n            <div class=\"pulse-dot-red\"></div>\n            <span>Stock running low!</span>\n          </div>\n        `;\n      } else if (inventoryLevel <= 399) {\n        stockHTML = `\n          <div class=\"low-stock-pulse medium-stock\">\n            <div class=\"pulse-dot\"></div>\n            <span>Only 7 more left</span>\n          </div>\n        `;\n      } else if (inventoryLevel <= 599) {\n        stockHTML = `\n          <div class=\"low-stock-pulse medium-stock\">\n            <div class=\"pulse-dot\"></div>\n            <span>Only 12 more left</span>\n          </div>\n        `;\n      } else {\n        stockHTML = `\n          <div class=\"low-stock-pulse in-stock\">\n            <div class=\"pulse-dot-green\"></div>\n            <span>In stock</span>\n          </div>\n        `;\n      }\n      \n      stockIndicator.innerHTML = stockHTML;\n    }\n    \n    // Initialize all variant inventory quantities\n    const variantInventory = {};\n    {% for variant in product.variants %}\n      variantInventory[{{ variant.id }}] = {{ variant.inventory_quantity | default: 0 }};\n    {% endfor %}\n    \n    // Listen for variant change events\n    document.addEventListener('variant:change', function(event) {\n      const variant = event.detail.variant;\n      if (variant) {\n        // Create a mock variant object with inventory data\n        const variantWithInventory = {\n          id: variant.id,\n          inventory_quantity: variantInventory[variant.id] || 0\n        };\n        updateStockMessage(variantWithInventory);\n      }\n    });\n    \n    // For older themes that might use a different event\n    const selectElements = document.querySelectorAll('select[name=\"id\"], input[name=\"id\"]');\n    selectElements.forEach(select => {\n      select.addEventListener('change', function() {\n        const variantId = parseInt(this.value);\n        const variantWithInventory = {\n          id: variantId,\n          inventory_quantity: variantInventory[variantId] || 0\n        };\n        updateStockMessage(variantWithInventory);\n      });\n    });\n  });\n</script>"
           }
         },
-        "kaching_bundles_app_block_Krmw66": {
-          "type": "shopify://apps/kaching-bundles/blocks/app-block/6c637362-a106-4a32-94ac-94dcfd68cdb8",
-          "settings": {
-            "product": "{{section.settings.product}}"
-          }
-        },
         "liquid_qKXULc": {
           "type": "liquid",
           "name": "Code urgence arriere plan rouge",
@@ -420,7 +414,7 @@
           "settings": {
             "show_payment_button": false,
             "show_gift_card_recipient": true,
-            "atc_button_background": "#f0c417",
+            "atc_button_background": "#f056a3",
             "atc_button_text_color": "",
             "payment_button_background": "rgba(0,0,0,0)",
             "payment_button_text_color": "rgba(0,0,0,0)"
@@ -549,7 +543,6 @@
         "liquid_gzRNpm",
         "liquid_PDR9L9",
         "liquid_zDjexe",
-        "kaching_bundles_app_block_Krmw66",
         "liquid_qKXULc",
         "liquid_DLwPfG",
         "liquid_f43YHT",
@@ -868,23 +861,6 @@
     },
     "1754426774688f8537": {
       "type": "apps",
-      "blocks": {
-        "loox_reviews_loox_agg_section_Bc6Wpf": {
-          "type": "shopify://apps/loox-reviews/blocks/loox-agg-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
-          "settings": {
-            "only_photos": false,
-            "hide_thumbnails": true,
-            "product_handle": "",
-            "aggregated": true,
-            "data-limit": 7,
-            "maxwidth": 1080,
-            "is_sample": true
-          }
-        }
-      },
-      "block_order": [
-        "loox_reviews_loox_agg_section_Bc6Wpf"
-      ],
       "settings": {
         "full_width": true,
         "remove_vertical_spacing": false,
